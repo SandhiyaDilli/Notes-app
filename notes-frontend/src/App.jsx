@@ -4,12 +4,9 @@ import Login from './Login';
 import NotesList from './NotesList';
 import './App.css';
 import Signup from './Signup';
-//notes array
-const notes=["Gym","Walk","Prayer"];
 
-//parent component
 function App(){
-  const [refreshTrigger,setrefershTrigger]=useState(0);
+  const [refreshTrigger,setRefreshTrigger]=useState(0);
   const [token,setToken] = useState(localStorage.getItem('token'));
   const[showSignup,setShowSignup]=useState(false);
   const handleLogout = () => {
@@ -21,8 +18,8 @@ function App(){
     {token ? (
       <>
       <h1>My Notes</h1>
-    <CreateNote onNoteCreated={()=>setrefershTrigger(prev=>prev+1)}/>
-    <NotesList refreshTrigger={refreshTrigger} onEdit={()=>setrefershTrigger(prev=>prev+1)}/>
+    <CreateNote onNoteCreated={()=>setRefreshTrigger(prev=>prev+1)}/>
+    <NotesList refreshTrigger={refreshTrigger} onEdit={()=>setRefreshTrigger(prev=>prev+1)}/>
       <button className="logout-btn" onClick={handleLogout}>Logout</button>
     </>
     ) :(
@@ -42,10 +39,4 @@ function App(){
 }
 export default App;
 
-  //.map() - takes an array, applies an operation to each item,
-  //  returns a new array. Plain JS, nothing React-specific.
-
-  //key - acts as a permanent ID tag so React can track "which
-  //  item is which" across changes (add/delete/edit), instead of 
-  // relying on position which can cause mix-ups.
-
+  

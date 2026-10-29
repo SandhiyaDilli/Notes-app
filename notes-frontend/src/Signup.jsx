@@ -1,13 +1,14 @@
 import { useState } from "react";
+import { API } from './config';
 function Signup(props){
-    const[username,SetUsername]=useState('');
+    const[username,setUsername]=useState('');
     const[password,setPassword]=useState('');
     const[error,setError]=useState('');
     const[success,setSuccess]=useState('');
     return(
         <form className="form-box" onSubmit={(e)=>{
             e.preventDefault();
-            fetch('http://localhost:3000/auth/signup',{
+            fetch(`${API}/auth/signup`,{
                 method:'POST',
                 headers:{'Content-Type':'application/json'},
                 body:JSON.stringify({user_name:username,password:password})
@@ -15,7 +16,6 @@ function Signup(props){
                 .then(response=>response.json())
                 .then(data =>{
                     if(data.user){
-                 //console.log(data);
                  setSuccess("Account created! Please log in.");
                  setTimeout(()=>props.onSignupSuccess(),1500);
                     }
@@ -29,7 +29,7 @@ function Signup(props){
       <input 
       type="text"
       value={username}
-      onChange={(e)=> SetUsername(e.target.value)}
+      onChange={(e)=> setUsername(e.target.value)}
       placeholder="Username"
        />
        <input 

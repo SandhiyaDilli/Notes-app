@@ -1,11 +1,11 @@
 import {useState,useEffect} from 'react';
 import NoteCard from './NoteCard';
+import { API } from './config';
 function NotesList(props){
     const [notes,setNotes] = useState([]);
-    //useEffect - abt what to do (the logic /data fetching) not abt UI
     useEffect(()=>{
         const token = localStorage.getItem('token');
-        fetch('http://localhost:3000/notes/with-tags',
+        fetch(`${API}/notes/with-tags`,
             {headers:{
                 Authorization:`Bearer ${token}`
             }})
@@ -15,14 +15,14 @@ function NotesList(props){
                 }
                     return response.json();
             })
-            .then(data=> {setNotes(data);
-                console.log(data);
+            .then(data=> {
+                 setNotes(Array.isArray(data) ? data : []);
     });
     },[props.refreshTrigger]);
 
     const handleNote =(note_id)=>{
         const token = localStorage.getItem('token');
-        fetch(`http://localhost:3000/notes/${note_id}`,{
+        fetch(`${API}/notes/${note_id}`,{
             method:'DELETE',
             headers:{
                 Authorization:`Bearer ${token}`}
@@ -33,7 +33,7 @@ function NotesList(props){
     };
     return(
         <>
-        {notes.map((note,index)=>(
+        {notes.map((note)=>(
         <NoteCard key={note.note_id} note={note.note} tags={note.tags} note_id={note.note_id} onDelete={handleNote} onEdit={props.onEdit}/>
         ))}
         </>

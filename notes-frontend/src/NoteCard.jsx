@@ -1,16 +1,13 @@
 import {useState} from "react";
+import { API } from './config';
 function NoteCard(props){
-    //state variable - spl var in react and any change in that var would 
-    //tell react to refresh the screen when its value changes.
-
-    //useState - hook and it automatically triggers re-renders
-    //  of pages once the useState variables are changed or edited
     const [isEditing,setIsEditing] = useState(false);
     const [editedNote,setEditedNote] = useState(props.note);
     const [newTag,setNewTag] = useState('');
-    const handelTag =() =>{
+    const handleTag =() =>{
+          if (!newTag.trim()) return;
         const token = localStorage.getItem('token');
-        fetch('http://localhost:3000/tags',{
+        fetch(`${API}/tags`,{
             method:'POST',
             headers:{
                 'Content-Type':'application/json',
@@ -20,7 +17,7 @@ function NoteCard(props){
         })
         .then(response=>response.json())
         .then(tagData=>{
-            fetch(`http://localhost:3000/notes/${props.note_id}/tags`,{
+            fetch(`${API}/notes/${props.note_id}/tags`,{
                 method:'POST',
                 headers:{
                 'Content-Type':'application/json',
@@ -36,7 +33,7 @@ function NoteCard(props){
     };
     const handleSave = () =>{
         const token = localStorage.getItem('token');
-        fetch(`http://localhost:3000/notes/${props.note_id}`,{
+        fetch(`${API}/notes/${props.note_id}`,{
             method:'PATCH',
             headers:{
                 'Content-Type':'application/json',
@@ -65,7 +62,6 @@ function NoteCard(props){
                 <span key={i} className="tag-pill">{tag}</span>
                 ))}
         </div>
-        {/* <p>{props.tags}</p> */}
         <div className="note-actions">
         <button onClick={()=>props.onDelete(props.note_id)}>Delete</button>
         <button onClick={()=> setIsEditing(true)}>Edit</button>
@@ -77,7 +73,7 @@ function NoteCard(props){
         value={newTag}
         onChange={(e)=> setNewTag(e.target.value)}
         placeholder="Add a tag" />
-        <button onClick={handelTag}>Add Tag</button>
+        <button onClick={handleTag}>Add Tag</button>
         </div>
         </div>
     );

@@ -1,5 +1,4 @@
 import { useState } from "react";
-//props-fun args passed by parent to child and it is recieved as one obj props.
 function CreateNote(props){
     const [note,setNote]= useState('');
     return(
@@ -13,8 +12,7 @@ function CreateNote(props){
                 body:JSON.stringify({note:note})
             })
             .then(response=>response.json())
-            .then((data)=>{
-                console.log(data);
+            .then(()=>{
                 setNote('');
                  props.onNoteCreated();
             });

@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const authRoutes = require('./routes/auth.js');
-const notesRoutes = require('./routes/notes.js');//.js here only
+const notesRoutes = require('./routes/notes.js');
 const tagsRoutes = require('./routes/tags.js');
 const cors = require('cors');
 app.use(cors())
